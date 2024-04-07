@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Typing Practice</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+    #container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+    #typing-box {
+        width: 400px;
+        border: 1px solid #ccc;
+        padding: 20px;
+        border-radius: 10px;
+        background-color: #f9f9f9;
+    }
+    #word-display {
+        font-size: 1.5em;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    #input-area {
+        width: 100%;
+        padding: 10px;
+        font-size: 1em;
+        box-sizing: border-box;
+    }
+    #result {
+        text-align: center;
+        margin-top: 20px;
+        font-weight: bold;
+    }
+</style>
+</head>
+<body>
+
+<div id="container">
+    <div id="typing-box">
+        <div id="word-display"></div>
+        <textarea id="input-area" rows="5"></textarea>
+        <div id="result"></div>
+    </div>
+</div>
+
+<script>
+
+class TypingPractice {
+    constructor(lessons){
+
+       this.lessons = lessons;
+       this.wordDisplay = document.getElementById('word-display');
+       this.inputArea = document.getElementById('input-area');
+       this.resultDisplay = document.getElementById('result');
+       this.currentWordIndex = 0;
+       this.currentLetterIndex = 0 ;
+       this.lessonIndex = 0;
+       this.startTime = null;
+       this.threshold = 10;
+       this.inputEventListener();
+    }
+
+
+    displayNextWord() {
+        this.wordDisplay.textContent =  this.lessons[this.lessonIndex].words[this.currentWordIndex];
+        this.currentLetterIndex = 0;
+    }
+
+    retrieveCheckPointLesson(){
+
+        let lessonNumber = localStorage.getItem('lessonNumber');
+        let indexWord = localStorage.getItem('indexWord');
+
+        return [lessonNumber, indexWord];
+    }
+
+    saveCheckPointLesson(numberLesson, indexWord){
+
+         localStorage.setItem('lessonNumber', numberLesson);
+         localStorage.setItem('indexWord', indexWord);
+    }
+
+    startPractice(){
+        this.currentWordIndex = 0;
+        this.currentLetterIndex = 0;
+        this.lessonIndex = 0;
+
+        const arrSession = this.retrieveCheckPointLesson();
+
+        this.lessonIndex = arrSession[0] !== undefined ? parseInt(arrSession[0]) : this.lessonIndex;
+        this.currentWordIndex = arrSession[1] !== undefined ? parseInt(arrSession[1]) : this.currentWordIndex;
+        // if (arr_session[0] != undefined){
+        //     this.lessonIndex = parseInt(arr_session[0])
+        // }
+
+        // if (arr_session[1] != undefined){
+        //     currentWordIndex = parseInt(arr_session[1]);
+        // }
+        this.displayNextWord();
+        this.inputArea.value = '';
+        this.resultDisplay.textContent = '';
+        this.inputArea.focus();
+        this.startTime = Date.now();
+    }
+
+inputEventListener(){
+        this.inputArea.addEventListener('input', () => {
+        const inputWords = this.inputArea.value
+        const currentLetter = inputWords[inputWords.length - 1];
+        const expectedWord = this.lessons[this.lessonIndex].words[this.currentWordIndex];
+        const expectedLetter = expectedWord.charAt(this.currentLetterIndex);
+
+        this.resultDisplay.textContent = '';
+
+        //check if the wrong letter is incorrect
+        if (!this.equalIgnoreCase(currentLetter, expectedLetter)) {
+
+            alert(`Wrong letter, expecting ${expectedLetter}`);
+            this.removeLastCharacter();
+        }
+        else{
+             this.currentLetterIndex++;
+
+            if (equalIgnoreCase(inputWords, expectedWord)) {
+                this.currentWordIndex++;
+                this.inputArea.value = '';
+
+                this.displayNextWord();
+            }
+
+            if (this.currentWordIndex === this.lessons[this.lessonIndex].words.length) {
+                this.calculateTypingSpeed();
+
+                this.lessonIndex++;
+                this.currentWordIndex = 0;
+                this.displayNextWord();
+            }
+
+            this.saveCheckPointLesson(this.lessonIndex, this.currentWordIndex)
+        }
+
+    });
+}
+
+
+
+    messageLowTypingSpeed(typingSpeed){
+        return `Your typing speed: ${typingSpeed} is not enough
+       to advance next lesson, You need to restart your lesson`;
+    }
+
+    calculateWordsPerMin(mins, seconds, wordsTyped){
+        let secondsToMins = parseFloat(seconds) / 60;
+        let totalMins = mins + secondsToMins;
+        return Math.round(wordsTyped / totalMins);
+    }
+
+    calculateTypingSpeed() {
+        const threshold = 10;
+        let elapsedTime = Date.now() - this.startTime; //miliseconds
+
+        const minutes = Math.floor(elapsedTime / 60000);
+        const seconds = ((elapsedTime % 60000) / 1000).toFixed(2);
+        const wordsTyped = this.countWordsExpected(this.lessons[this.lessonIndex].words);
+
+        const typingSpeed = this.calculateWordsPerMin(minutes, seconds, wordsTyped)
+
+        this.resultDisplay.textContent = `Finished lesson ${lessons[lessonIndex].lesson} , Your typing speed: ${typingSpeed} words per minute`;
+
+        if (typingSpeed < threshold){
+
+
+            if (confirm(this.messageLowTypingSpeed(typingSpeed))) {
+              //    saveCheckPointLesson(lessonIndex, 0);
+              // debugger;
+              this.startPractice();
+            } else {
+              alert("Show final results")
+
+            }
+        }
+    }
+
+    // HelperMethods
+    equalIgnoreCase(s1, s2) {
+        return new Intl.Collator("en-US", { sensitivity: "base" }).compare(s1, s2) === 0;
+    }
+
+    removeLastCharacter(){
+        let newValue = this.inputArea.value.slice(0, -1);
+        this.inputArea.value = newValue;
+    }
+
+    countWordsExpected(lessonWords){
+        let count = 0;
+        lessonWords.forEach((item, i) => {
+            for (let i = 0; i < item.length; i++) {
+                if (item[i] === ' ') {
+                    count++;
+                }
+            }
+        });
+
+        total = count + lessonWords.length;
+        return total;
+    }
+
+}
+
+
+
+
+// function startPractice() {
+//         currentWordIndex = 0;
+//         currentLetterIndex = 0;
+//         lessonIndex = 0;
+//
+//         arr_session = retrieveCheckPointLesson();
+//
+//         if (arr_session[0] != undefined){
+//             lessonIndex = parseInt(arr_session[0]);
+//         }
+//
+//         if (arr_session[1] != undefined){
+//             currentWordIndex = parseInt(arr_session[1]);
+//         }
+//
+//         displayNextWord();
+//         inputArea.value = '';
+//         resultDisplay.textContent = '';
+//         inputArea.focus();
+//         startTime = Date.now();
+// }
+
+
+
+
+
+
+
+
+
+const lessons = [
+        {
+            lesson: 1,
+            words: [
+                "Harry Potter and the Sorcerers Stone",
+                "CHAPTER ONE",
+                "THE BOY WHO LIVED",
+            ]
+        },
+        {
+         lesson: 2,
+         words:["that they were perfectly normal, thank you very much",
+                "They were the last people you'd expect to be involved in anything strange or mysterious",
+                "because they just didn't hold with such nonsense."]
+       }
+
+    ]
+
+
+const typingPractice = new TypingPractice(lessons);
+typingPractice.startPractice();
+
+</script>
+
+</body>
+</html>
