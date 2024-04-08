@@ -63,7 +63,7 @@ class TypingPractice {
        this.currentLetterIndex = 0 ;
        this.lessonIndex = 0;
        this.startTime = null;
-       this.threshold = 20;
+       this.threshold = 50;
        this.inputEventListener();
     }
 
@@ -105,6 +105,32 @@ class TypingPractice {
         this.startTime = Date.now();
     }
 
+    isSuccessLesson(typingSpeed){
+        return typingSpeed > this.threshold;
+    }
+
+    finishLesson(isSuccess, typingSpeed){
+
+        switch (isSuccess) {
+            case true:
+                this.lessonIndex++;
+                this.currentWordIndex = 0;
+                this.displayNextWord();
+                break;
+            case false:
+                if (confirm(this.messageLowTypingSpeed(typingSpeed))) {
+                    this.saveCheckPointLesson(this.lessonIndex, 0);
+                    this.startPractice();
+                    break;
+                }else {
+                    alert("Show final results")
+                }
+            default:
+               console.log(`Sorry, we are out of ${isSuccess}.`);
+               return
+
+        }
+    }
 inputEventListener(){
         this.inputArea.addEventListener('input', () => {
         const inputWords = this.inputArea.value
@@ -131,11 +157,9 @@ inputEventListener(){
             }
 
             if (this.currentWordIndex === this.lessons[this.lessonIndex].words.length) {
-                this.calculateTypingSpeed();
-
-                this.lessonIndex++;
-                this.currentWordIndex = 0;
-                this.displayNextWord();
+                const typingSpeed = this.calculateTypingSpeed();
+                const isSuccess = this.isSuccessLesson(typingSpeed);
+                this.finishLesson(isSuccess, typingSpeed);
             }
 
             this.saveCheckPointLesson(this.lessonIndex, this.currentWordIndex)
@@ -143,9 +167,6 @@ inputEventListener(){
 
     });
 }
-
-
-
     messageLowTypingSpeed(typingSpeed){
         return `Your typing speed: ${typingSpeed} is not enough
        to advance next lesson, You need to restart your lesson`;
@@ -158,7 +179,6 @@ inputEventListener(){
     }
 
     calculateTypingSpeed() {
-        const threshold = 10;
         let elapsedTime = Date.now() - this.startTime; //miliseconds
 
         const minutes = Math.floor(elapsedTime / 60000);
@@ -169,17 +189,7 @@ inputEventListener(){
 
         this.resultDisplay.textContent = `Finished lesson ${this.lessons[this.lessonIndex].lesson} , Your typing speed: ${typingSpeed} words per minute`;
 
-        if (typingSpeed < threshold){
-
-
-            if (confirm(this.messageLowTypingSpeed(typingSpeed))) {
-              //    saveCheckPointLesson(lessonIndex, 0);
-              this.startPractice();
-            } else {
-              alert("Show final results")
-
-            }
-        }
+        return typingSpeed;
     }
 
     // HelperMethods
