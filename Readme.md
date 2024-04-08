@@ -1,6 +1,6 @@
 # 👋 Welcome to the Passage Challenge Solved by me :bowtie:
 
-I'm not sure it's bug free, :ant: but I did my best in the short time I had.
+I'm not sure it's bug free, :ant: but surely I did my best. 
 
 
 ## Backend
