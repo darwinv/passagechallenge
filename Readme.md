@@ -20,5 +20,22 @@ matrix_ex = [
     [1, 1, 1],
 ]
 ``` 
+the output in the console should be **14**, the amount of good squares in that matrix.
+
+modify the matrix at your will
+
+### Unit tests
+
+There's also a file that executes unit tests with different scenarios and corner cases against `good_square.py`.
+
+you can execute them running, :point_right: `python -m unittest test_good_square.py`. 
+
+No need to install or configure anything.
+
+
+## Frontend
+
+The Type practicing app was made in just one file, type_app.html.
+In order to execute it, you just need to download the file, and open it with a recent browser.
 
 
