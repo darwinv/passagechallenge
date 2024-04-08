@@ -63,7 +63,7 @@ class TypingPractice {
        this.currentLetterIndex = 0 ;
        this.lessonIndex = 0;
        this.startTime = null;
-       this.threshold = 10;
+       this.threshold = 20;
        this.inputEventListener();
     }
 
@@ -97,13 +97,7 @@ class TypingPractice {
 
         this.lessonIndex = arrSession[0] != undefined ? parseInt(arrSession[0]) : this.lessonIndex;
         this.currentWordIndex = arrSession[1] != undefined ? parseInt(arrSession[1]) : this.currentWordIndex;
-        // if (arr_session[0] != undefined){
-        //     this.lessonIndex = parseInt(arr_session[0])
-        // }
 
-        // if (arr_session[1] != undefined){
-        //     currentWordIndex = parseInt(arr_session[1]);
-        // }
         this.displayNextWord();
         this.inputArea.value = '';
         this.resultDisplay.textContent = '';
@@ -214,32 +208,6 @@ inputEventListener(){
 
 }
 
-
-
-
-// function startPractice() {
-//         currentWordIndex = 0;
-//         currentLetterIndex = 0;
-//         lessonIndex = 0;
-//
-//         arr_session = retrieveCheckPointLesson();
-//
-//         if (arr_session[0] != undefined){
-//             lessonIndex = parseInt(arr_session[0]);
-//         }
-//
-//         if (arr_session[1] != undefined){
-//             currentWordIndex = parseInt(arr_session[1]);
-//         }
-//
-//         displayNextWord();
-//         inputArea.value = '';
-//         resultDisplay.textContent = '';
-//         inputArea.focus();
-//         startTime = Date.now();
-// }
-
-
 const lessons = [
         {
             lesson: 1,
@@ -256,12 +224,10 @@ const lessons = [
          lesson: 2,
          words:[
                 "Mr. Dursley was the director of a firm called Grunnings, which made drills.",
-                "He was a big, beefy man with hardly any neck, although he did
-                have a very large mustache.",
+                "He was a big, beefy man with hardly any neck, although he did have a very large mustache.",
                 "Mrs. Dursley was thin and blonde and had nearly twice the usual amount of neck,",
                 "which came in very useful as she spent so much of her time craning over garden fences, spying on the neighbors.",
-                "The Dursleys had a small son called Dudley and in their
-                opinion there was no finer boy anywhere.",
+                "The Dursleys had a small son called Dudley and in their opinion there was no finer boy anywhere.",
                 ]
        },
        {
@@ -272,7 +238,7 @@ const lessons = [
         "in fact, Mrs. Dursley pretended she didn't have a sister, because her sister and her good-for-nothing husband were as unDursleyish as it was possible to be.",
         "The Dursleys shuddered to think what the neighbors would say if the Potters arrived in the street.",
         "The Dursleys knew that the Potters had a small son, too, but they had never even seen him.",
-        "This boy was another good reason for keeping the Potters away; they didn't want Dudley mixing with a child like that".
+        "This boy was another good reason for keeping the Potters away; they didn't want Dudley mixing with a child like that",
        ]
    },
    {
