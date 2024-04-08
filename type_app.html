@@ -46,8 +46,9 @@
 <div id="container">
     <div id="typing-box">
         <div id="word-display"></div>
-        <textarea id="input-area" rows="5"></textarea>
+        <textarea id="input-area" rows="10"></textarea>
         <div id="result"></div>
+        <div id="resultEnd"></div>
     </div>
 </div>
 
@@ -59,11 +60,12 @@ class TypingPractice {
        this.wordDisplay = document.getElementById('word-display');
        this.inputArea = document.getElementById('input-area');
        this.resultDisplay = document.getElementById('result');
+       this.resultDisplayFinished = document.getElementById('resultEnd');
        this.currentWordIndex = 0;
        this.currentLetterIndex = 0 ;
        this.lessonIndex = 0;
        this.startTime = null;
-       this.threshold = 50;
+       this.threshold = 25;
        this.inputEventListener();
     }
 
@@ -113,6 +115,11 @@ class TypingPractice {
 
         switch (isSuccess) {
             case true:
+                if ((this.lessonIndex + 1) == this.lessons.length){
+                    this.resultDisplayFinished.textContent = "Finished all lessons, Thanks for practicing!";
+                    break;
+                    return
+                }
                 this.lessonIndex++;
                 this.currentWordIndex = 0;
                 this.displayNextWord();
@@ -121,15 +128,21 @@ class TypingPractice {
                 if (confirm(this.messageLowTypingSpeed(typingSpeed))) {
                     this.saveCheckPointLesson(this.lessonIndex, 0);
                     this.startPractice();
-                    break;
+
                 }else {
-                    alert("Show final results")
+                    //Starting over again from lesson 1
+                    this.saveCheckPointLesson(0, 0);
+                    this.resultDisplay.textContent = `Finished lesson ${this.lessons[this.lessonIndex].lesson} , Your typing speed: ${typingSpeed} was words per minute`;
+                    this.startPractice();
                 }
+                break;
             default:
                console.log(`Sorry, we are out of ${isSuccess}.`);
                return
 
         }
+
+
     }
 inputEventListener(){
         this.inputArea.addEventListener('input', () => {
