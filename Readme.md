@@ -1,6 +1,6 @@
-# 👋 :bowtie: Welcome to the Passage Challenge Solved 
+# 👋  Welcome to the Passage Challenge Solved 
 
-I'm not sure it's bug free, :ant: but surely I did my best. 
+I'm not sure it's bug free, :ant: but surely I did my best :bowtie: 
 
 
 ## Backend
