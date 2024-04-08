@@ -35,7 +35,16 @@ No need to install or configure anything.
 
 ## Frontend
 
-The Type practicing app was made in just one file, type_app.html.
-In order to execute it, you just need to download the file, and open it with a recent browser.
+The Type practicing app was made in just one file, **type_app.html**.
+In order to execute it, you just need to download the file, and open it with a recent browser preferably.
+
+Once you open the file, your typing speed starts counting. :watch:
+if you close the window, the app is going to save where was your last checkpoint. :floppy_disk:
+
+if your typing speed is below **25 wpm** there will raise a pop up, and request to restart the lesson or finish everything and show the final results
+
+Unfortunately I couldn't add unit tests:sweat: 
+
+PS: In case I don't pass the challenge, a well detailed feedback will be much appreciated, Thanks :innocent: :v:
 
 
