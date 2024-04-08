@@ -22,7 +22,10 @@ matrix_ex = [
 ``` 
 the output in the console should be **14**, the amount of good squares in that matrix.
 
-modify the matrix at your will
+modify the matrix at your will 👌
+
+
+
 
 ### Unit tests
 
@@ -30,22 +33,29 @@ There's also a file that executes unit tests with different scenarios and corner
 
 you can execute them running, :point_right: `python -m unittest test_good_square.py`. 
 
-No need to install or configure anything.
+No need to install or configure anything. 🧰
 
 
 ## Frontend
 
 The Type practicing app was made in just one file, **type_app.html**.
-In order to execute it, you just need to download the file, and open it with a recent browser preferably.
 
-Once you open the file, your typing speed starts counting. :watch:
 
-if you close the window, the app is going to save where was your last checkpoint. :floppy_disk:
+In order to execute it, you just need to download the file and open it with a recent browser preferably.
+
+
+Once you open the file, your typing speed starts counting. ⏳
+
+if you close the window, the application will save where your last checkpoint was. :floppy_disk:
+
 
 if your typing speed is below **25 wpm** there will raise a pop up, and request to restart the lesson or finish everything and show the final results
 
-Unfortunately I couldn't add unit tests, in this challenge :sweat: 
 
-PS: In case I don't pass the challenge, a well detailed feedback will be much appreciated, Thanks :innocent: :v:
+Unfortunately, I couldn't add unit tests for this one :sweat: 
+
+
+
+PS: In case I don't pass the challenge, a well-detailed feedback will be much appreciated, Thanks :innocent: :v:
 
 
